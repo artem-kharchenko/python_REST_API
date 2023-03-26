@@ -1,2 +1,4 @@
-print("python_rest_api")
-print("next_python_rest_api")
+import requests
+
+response = requests.get("http://playground.learnqa.ru/api/hello")
+print(response.text)
