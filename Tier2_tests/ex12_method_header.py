@@ -1,5 +1,4 @@
 import requests
-from json.decoder import JSONDecodeError
 
 response = requests.get("https://playground.learnqa.ru/api/homework_header")
 print(response.text)
