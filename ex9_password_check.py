@@ -36,20 +36,18 @@ i = 0
 
 while i < 29:
 
-    login_password = {"login":"super_admin", "password":passwords[i]}
+	login_password = {"login":"super_admin", "password":passwords[i]}
 
-    response1 = requests.post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework", data=login_password)
+	response1 = requests.post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework", data=login_password)
 
-    print(f"using i_value: {i} and password: {passwords[i]}  response: {response1.text}")
+	print(f"using i_value: {i} and password: {passwords[i]}  response: {response1.text}")
 
-    cookie_value = response1.cookies.get('auth_cookie')
+	cookie_value = response1.cookies.get('auth_cookie')
 
-    cookies = {'auth_cookie': cookie_value}
+	cookies = {'auth_cookie': cookie_value}
 
-    response2 = requests.post("https://playground.learnqa.ru/ajax/api/check_auth_cookie", cookies=cookies)
-
+	response2 = requests.post("https://playground.learnqa.ru/ajax/api/check_auth_cookie", cookies=cookies)
 	print(response2.text)
-
 	i += 1
 
 	if (response2.text=='You are authorized'):

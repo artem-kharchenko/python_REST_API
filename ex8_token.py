@@ -17,4 +17,3 @@ time.sleep(5)
 
 response = requests.get("https://playground.learnqa.ru/ajax/api/longtime_job", params={"token":itoken})
 print(response.text)
-
