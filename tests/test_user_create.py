@@ -2,6 +2,7 @@ import requests
 from python_REST_API.lib.base_case import BaseCase
 from python_REST_API.lib.assertions import Assertions
 from datetime import datetime
+import pytest
 
 class TestUserRegister(BaseCase):
     def setup(self):
@@ -83,3 +84,19 @@ class TestUserRegister(BaseCase):
 
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == "The value of 'username' field is too long", f"Unexpected response content {response.content}"
+
+    blank_params = {
+        'password': '',
+        'username': '',
+        'firstName': '',
+        'lastName': '',
+        'email': ''
+    }
+    @pytest.mark.parametrize("blank_params", blank_params)
+    def test_create_user_with_blank_param(self, blank_params):
+
+        response = requests.post("https://playground.learnqa.ru/api/user/", data=blank_params)
+
+        Assertions.assert_code_status(response, 400)
+        print(response.content)
+        assert response.content.decode("utf-8") == "The following required params are missed: email, password, firstName, lastName", f"Unexpected response content {response.content}"
