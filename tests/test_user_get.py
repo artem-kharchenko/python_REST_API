@@ -41,9 +41,9 @@ class TestUserGet(BaseCase):
         user_id_from_auth_method = self.get_json_value(response3, "user_id") - 1
         #user_id_from_auth_method = 69265
         response4 = requests.get(f"https://playground.learnqa.ru/api/user/{user_id_from_auth_method}",
-                                 headers={"x-csrf-token": token},
-                                 cookies={"auth_sid": auth_sid}
-                                 )
+             headers={"x-csrf-token": token},
+             cookies={"auth_sid": auth_sid}
+             )
 
         print(response4.content)
         print(response4.status_code)
