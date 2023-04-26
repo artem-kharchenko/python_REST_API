@@ -1,7 +1,17 @@
 import requests
 from python_REST_API.lib.base_case import BaseCase
 from python_REST_API.lib.assertions import Assertions
+import allure
+
+
+class AllureDescription:
+    pass
+
+
+@allure.epic("Edit test cases")
 class TestUserEdit(BaseCase):
+
+    @allure.description("This test used to register, login, edit and get just created user")
     def test_edit_just_created_user(self):
         #Register
         register_data = self.prepare_registration_data()
@@ -50,6 +60,7 @@ class TestUserEdit(BaseCase):
             "Wrong name of the user after edit"
         )
     # 1. change user details while being unauthorized
+    @allure.description("This test used to edit user wthout authorization")
     def test_edit_user_without_authorization(self):
         # 1.1 Register
         register_data = self.prepare_registration_data()
@@ -73,6 +84,7 @@ class TestUserEdit(BaseCase):
 
 
     # 2. change user data while being authorized by another user
+    @allure.description("This test used to verify that User2 could not update User1 data")
     def test_edit_user_authorized_by_another_user(self):
         # 2.1 Register User1
         user1_register_data = self.prepare_registration_data()
@@ -145,8 +157,10 @@ class TestUserEdit(BaseCase):
             "Wrong name of the user after edit"
         )
 
+    @allure.description("This test used to verify that data wasn't edited with wrong params")
     def test_edit_user_with_wrong_data(self, wrong_param):
 
+        AllureDescription.add_step(f"Register User for future update")
         # Register
         register_data = self.prepare_registration_data()
         response1 = requests.post("https://playground.learnqa.ru/api/user/", data=register_data)
@@ -159,6 +173,7 @@ class TestUserEdit(BaseCase):
         password = register_data["password"]
         user_id = self.get_json_value(response1, "id")
 
+        AllureDescription.add_step("User Login to the system")
         # Login
         login_data = {
             "email": email,
@@ -170,8 +185,8 @@ class TestUserEdit(BaseCase):
         auth_sid = self.get_cookie(response2, "auth_sid")
         token = self.get_header(response2, "x-csrf-token")
 
+        AllureDescription.add_step("Edit user that was previous authorized")
         # Edit
-
         if wrong_param == "email":
             data_for_edit = {"email": "wrong_email.coogle.com"}
         else:
@@ -194,7 +209,8 @@ class TestUserEdit(BaseCase):
                 "To short field 'firstName'",
                 "To short value 'firstName'")
 
-    #4. Verify that data wasn't edited with wrong param
+        AllureDescription.add_step(f"Verify that data wasn't change because params were wrong")
+        #4. Verify that data wasn't edited with wrong param
 
         response4 = requests.get(
             f"https://playground.learnqa.ru/api/user/{user_id}",
