@@ -44,4 +44,10 @@ class Assertions:
             f"Unexpected status code! Expected: {expected_status_code}. Actual: {response.status_code}"
 
 
+    @staticmethod
+    def assert_content(response: Response, expected_content):
+        assert response.content.decode("utf-8") == expected_content, \
+            f"Unexpected content! Expected: {expected_content}. Actual: {response.content}"
+
+
 
